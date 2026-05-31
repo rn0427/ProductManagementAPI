@@ -107,20 +107,18 @@ builder.Services.AddAuthentication(options =>
 });
 var app = builder.Build();
 
-// Configure middleware
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
+app.UseSwagger();
+app.UseSwaggerUI();
 
-    app.UseSwaggerUI();
-}
 app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapGet("/", () => Results.Redirect("/swagger"));
 
 app.MapControllers();
 
